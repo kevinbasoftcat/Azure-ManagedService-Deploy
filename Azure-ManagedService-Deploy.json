@@ -8,6 +8,7 @@
       "maxLength": 6,
       "metadata": {
         "description": "Softcat customer dynamics code. Must be a valid 6 character code."
+      }
       },
       "vnetAddressPrefix": {
         "type": "string",
@@ -30,7 +31,6 @@
           "description": "CIDR to be used for monitoring collector. Must be a vlaid /27 CIDR within the virtual network"
         }
       }
-    }
     },
     "variables":{
     "templateBaseUrl": "https://sctdeploymenttemplates.blob.core.windows.net/live/",
