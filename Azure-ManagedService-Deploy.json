@@ -36,7 +36,8 @@
     "TemplateBaseUrl": "https://sctdeploymenttemplates.blob.core.windows.net/live/",
     "PatchingTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Patching-Template.json')]",
     "NetworkTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Network-Template.json')]",
-    "BastionTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Bastion-Template.json')]"
+    "BastionTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Bastion-Template.json')]",
+    "MonitoringTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Monitoring-Template.json')]"
     },
     "resources": [
       {
@@ -71,7 +72,7 @@
         "monitoringHostSubnet" :{"value": "[parameters('monitoringHostSubnet')]"}
       }
       }
-    },
+      },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
@@ -89,6 +90,27 @@
       }
       },
       "dependsOn": ["AzureNetworkTemplate"]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "AzureMonitoringTemplate",
+      "properties": {
+      "mode": "Incremental",
+      "templateLink": {
+        "uri": "[concat(variables('MonitoringTemplateUrl'), parameters('containerSasToken'))]",
+        "contentVersion": "1.0.0.0"
+      },
+      "parameters": {
+        "softcatDynamicsCode" :{"value": "[parameters('softcatDynamicsCode')]"},
+        "vnetAddressPrefix" :{"value": "[parameters('vnetAddressPrefix')]"},
+        "monitoringHostSubnet" :{"value": "[parameters('monitoringHostSubnet')]"}
+      }
+      },
+      "dependsOn": [
+        "AzureNetworkTemplate",
+        "AzureBastionTemplate"
+      ]
     }
     ]
   }
