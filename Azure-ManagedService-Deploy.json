@@ -57,7 +57,7 @@
       {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
-      "name": "AzurevNetTemplate",
+      "name": "AzureNetworkTemplate",
       "properties": {
       "mode": "Incremental",
       "templateLink": {
@@ -87,9 +87,8 @@
         "vnetAddressPrefix" :{"value": "[parameters('vnetAddressPrefix')]"},
         "bastionHostSubnet" :{"value": "[parameters('bastionHostSubnet')]"}
       }
-      }
+      },
+      "dependsOn": ["AzureNetworkTemplate"]
     }
-    ],
-    "outputs": {
-    }
+    ]
   }
