@@ -56,7 +56,7 @@
       {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
-      "name": "AzurePatchingTemplate",
+      "name": "AzurevNetTemplate",
       "properties": {
       "mode": "Incremental",
       "templateLink": {
