@@ -35,7 +35,8 @@
     "variables":{
     "templateBaseUrl": "https://sctdeploymenttemplates.blob.core.windows.net/live/",
     "patchingTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Patching-Template.json')]",
-    "vNetTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-vNet-Template.json')]"
+    "vNetTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-vNet-Template.json')]",
+    "BastionTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Bastion-Template.json')]"
     },
     "resources": [
       {
@@ -68,6 +69,23 @@
         "vnetAddressPrefix" :{"value": "[parameters('vnetAddressPrefix')]"},
         "bastionHostSubnet" :{"value": "[parameters('bastionHostSubnet')]"},
         "monitoringHostSubnet" :{"value": "[parameters('monitoringHostSubnet')]"}
+      }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "AzureBastionTemplate",
+      "properties": {
+      "mode": "Incremental",
+      "templateLink": {
+        "uri": "[concat(variables('BastionTemplateUrl'), parameters('containerSasToken'))]",
+        "contentVersion": "1.0.0.0"
+      },
+      "parameters": {
+        "softcatDynamicsCode" :{"value": "[parameters('softcatDynamicsCode')]"},
+        "vnetAddressPrefix" :{"value": "[parameters('vnetAddressPrefix')]"},
+        "bastionHostSubnet" :{"value": "[parameters('bastionHostSubnet')]"}
       }
       }
     }
