@@ -35,7 +35,7 @@
     "variables":{
     "TemplateBaseUrl": "https://sctdeploymenttemplates.blob.core.windows.net/live/",
     "PatchingTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Patching-Template.json')]",
-    "NetorkTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Network-Template.json')]",
+    "NetworkTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Network-Template.json')]",
     "BastionTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Bastion-Template.json')]"
     },
     "resources": [
