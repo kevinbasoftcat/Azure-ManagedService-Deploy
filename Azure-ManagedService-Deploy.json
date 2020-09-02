@@ -107,10 +107,7 @@
         "monitoringHostSubnet" :{"value": "[parameters('monitoringHostSubnet')]"}
       }
       },
-      "dependsOn": [
-        "AzureNetworkTemplate",
-        "AzureBastionTemplate"
-      ]
+      "dependsOn": ["AzureNetworkTemplate"]
     }
     ]
   }
