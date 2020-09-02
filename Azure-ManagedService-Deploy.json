@@ -1,0 +1,77 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+    "containerSasToken": { "type": "securestring" },
+    "softcatDynamicsCode": {
+      "type": "string",
+      "maxLength": 6,
+      "metadata": {
+        "description": "Softcat customer dynamics code. Must be a valid 6 character code."
+      },
+      "vnetAddressPrefix": {
+        "type": "string",
+        "defaultValue": "172.0.0.0/24",
+        "metadata": {
+          "description": "CIDR to be used for the Virtual Network. Must be a valid /24 CIDR"
+        }
+      },
+      "bastionHostSubnet": {
+        "type": "string",
+        "defaultValue": "172.0.0.0/27",
+        "metadata": {
+          "description": "CIDR to be used for bastion host. Must be a valid /27 CIDR within the virtual network"
+        }
+      },
+      "monitoringHostSubnet": {
+        "type": "string",
+        "defaultValue": "172.0.0.32/27",
+        "metadata": {
+          "description": "CIDR to be used for monitoring collector. Must be a vlaid /27 CIDR within the virtual network"
+        }
+      }
+    }
+    },
+    "variables":{
+    "templateBaseUrl": "https://sctdeploymenttemplates.blob.core.windows.net/live/",
+    "patchingTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Patching-Template.json')]",
+    "vNetTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-vNet-Template.json')]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2019-10-01",
+        "name": "AzurePatchingTemplate",
+        "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('patchingTemplateUrl'), parameters('containerSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "softcatDynamicsCode" :{"value": "[parameters('softcatDynamicsCode')]"}
+        }
+        }
+      },
+      {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "AzurePatchingTemplate",
+      "properties": {
+      "mode": "Incremental",
+      "templateLink": {
+        "uri": "[concat(variables('vNetTemplateUrl'), parameters('containerSasToken'))]",
+        "contentVersion": "1.0.0.0"
+      },
+      "parameters": {
+        "softcatDynamicsCode" :{"value": "[parameters('softcatDynamicsCode')]"},
+        "vnetAddressPrefix" :{"value": "[parameters('vnetAddressPrefix')]"},
+        "bastionHostSubnet" :{"value": "[parameters('bastionHostSubnet')]"},
+        "monitoringHostSubnet" :{"value": "[parameters('monitoringHostSubnet')]"}
+      }
+      }
+    }
+    ],
+    "outputs": {
+    }
+  }
