@@ -33,9 +33,9 @@
       }
     },
     "variables":{
-    "templateBaseUrl": "https://sctdeploymenttemplates.blob.core.windows.net/live/",
-    "patchingTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Patching-Template.json')]",
-    "vNetTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-vNet-Template.json')]",
+    "TemplateBaseUrl": "https://sctdeploymenttemplates.blob.core.windows.net/live/",
+    "PatchingTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Patching-Template.json')]",
+    "NetorkTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Network-Template.json')]",
     "BastionTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Bastion-Template.json')]"
     },
     "resources": [
@@ -61,7 +61,7 @@
       "properties": {
       "mode": "Incremental",
       "templateLink": {
-        "uri": "[concat(variables('vNetTemplateUrl'), parameters('containerSasToken'))]",
+        "uri": "[concat(variables('NetworkTemplateUrl'), parameters('containerSasToken'))]",
         "contentVersion": "1.0.0.0"
       },
       "parameters": {
