@@ -137,7 +137,7 @@
         "softcatDynamicsCode" :{"value": "[parameters('softcatDynamicsCode')]"},
         "vnetAddressPrefix" :{"value": "[parameters('vnetAddressPrefix')]"},
         "bastionHostSubnet" :{"value": "[parameters('bastionHostSubnet')]"},
-        "vNetResourceGroupID":{"value": "[resourceId('Microsoft.Resources/resourceGroups/', parameters('vNetResourceGroupName'))]"},
+        "vNetResourceGroupName":{"value": "[parameters('vNetResourceGroupName')]"},
         "vNetName":{"value": "[reference('AzureNetworkTemplate').outputs.vNetNameOutput.Value]"}
       }
       }
