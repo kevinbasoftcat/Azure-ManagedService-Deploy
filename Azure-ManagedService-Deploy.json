@@ -143,7 +143,7 @@
     {
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2020-06-01",
-      "name": "[variables('monitoringesourceGroupName')]",
+      "name": "[variables('monitoringResourceGroupName')]",
       "location": "[parameters('resourceGroupLocation')]",
       "properties": {}
     },
