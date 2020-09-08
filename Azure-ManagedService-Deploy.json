@@ -138,7 +138,7 @@
         "vnetAddressPrefix" :{"value": "[parameters('vnetAddressPrefix')]"},
         "bastionHostSubnet" :{"value": "[parameters('bastionHostSubnet')]"},
         "vNetResourceGroupName":{"value": "[variables('vNetResourceGroupName')"},
-        "vNetName":{"value": "[reference('AzureNetworkTemplate').outputs.vNetName.Value]"}
+        "vNetName":{"value": "[reference('AzureNetworkTemplate').outputs.vNetNameOutput.Value]"}
       }
       }
     },
