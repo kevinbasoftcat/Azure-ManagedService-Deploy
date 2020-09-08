@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
     "containerSasToken": { "type": "securestring" },
@@ -8,6 +8,18 @@
       "maxLength": 6,
       "metadata": {
         "description": "Softcat customer dynamics code. Must be a valid 6 character code."
+      }
+      },
+      "resourceGroupLocation": {
+        "type": "string",
+      "defaultValue": "UK South",
+      "allowedValues": [
+        "UK South",
+        "UK West",
+        "West Europe"
+      ],
+      "metadata": {
+        "description": "Location for all resources."
       }
       },
       "vnetAddressPrefix": {
@@ -37,13 +49,28 @@
     "PatchingTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Patching-Template.json')]",
     "NetworkTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Network-Template.json')]",
     "BastionTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Bastion-Template.json')]",
-    "MonitoringTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Monitoring-Template.json')]"
+    "MonitoringTemplateUrl": "[uri(variables('templateBaseUrl'), 'Azure-Monitoring-Template.json')]",
+    "patchingResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG07-Patching')]",
+    "vNetResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG02-vNet')]",
+    "bastionResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG08-Bastion')]",
+    "monitoringResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG09-Monitoring')]"
     },
     "resources": [
+      {
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2020-06-01",
+        "name": "[variables('patchingResourceGroupName')]",
+        "location": "[parameters('resourceGroupLocation')]",
+        "properties": {}
+      },
       {
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2019-10-01",
         "name": "AzurePatchingTemplate",
+        "resourceGroup": "[variables('patchingResourceGroupName')]",
+        "dependsOn": [
+          "[variables('patchingResourceGroupName')]"
+        ],
         "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -56,9 +83,20 @@
         }
       },
       {
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2020-06-01",
+        "name": "[variables('vNetResourceGroupName')]",
+        "location": "[parameters('resourceGroupLocation')]",
+        "properties": {}
+      },
+      {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "name": "AzureNetworkTemplate",
+      "resourceGroup": "[variables('vNetResourceGroupName')]",
+        "dependsOn": [
+          "[variables('vNetResourceGroupName')]"
+        ],
       "properties": {
       "mode": "Incremental",
       "templateLink": {
@@ -73,10 +111,22 @@
       }
       }
       },
-    {
+      {
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2020-06-01",
+        "name": "[variables('bastionesourceGroupName')]",
+        "location": "[parameters('resourceGroupLocation')]",
+        "properties": {}
+      },
+      {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "name": "AzureBastionTemplate",
+      "resourceGroup": "[variables('bastionResourceGroupName')]",
+        "dependsOn": [
+          "[variables('bastionResourceGroupName')]",
+          "AzureNetworkTemplate"
+        ],
       "properties": {
       "mode": "Incremental",
       "templateLink": {
@@ -88,13 +138,24 @@
         "vnetAddressPrefix" :{"value": "[parameters('vnetAddressPrefix')]"},
         "bastionHostSubnet" :{"value": "[parameters('bastionHostSubnet')]"}
       }
-      },
-      "dependsOn": ["AzureNetworkTemplate"]
+      }
+    },
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2020-06-01",
+      "name": "[variables('monitoringesourceGroupName')]",
+      "location": "[parameters('resourceGroupLocation')]",
+      "properties": {}
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "name": "AzureMonitoringTemplate",
+      "resourceGroup": "[variables('monitoringResourceGroupName')]",
+        "dependsOn": [
+          "[variables('monitoringResourceGroupName')]",
+          "AzureNetworkTemplate"
+        ],
       "properties": {
       "mode": "Incremental",
       "templateLink": {
@@ -106,8 +167,7 @@
         "vnetAddressPrefix" :{"value": "[parameters('vnetAddressPrefix')]"},
         "monitoringHostSubnet" :{"value": "[parameters('monitoringHostSubnet')]"}
       }
-      },
-      "dependsOn": ["AzureNetworkTemplate"]
+      }
     }
     ]
   }
