@@ -166,7 +166,8 @@
       "parameters": {
         "softcatDynamicsCode" :{"value": "[parameters('softcatDynamicsCode')]"},
         "vnetAddressPrefix" :{"value": "[parameters('vnetAddressPrefix')]"},
-        "monitoringHostSubnet" :{"value": "[parameters('monitoringHostSubnet')]"}
+        "monitoringHostSubnet" :{"value": "[parameters('monitoringHostSubnet')]"},
+        "monitoringSubnetId" :{"value": "[reference('AzureNetworkTemplate').outputs.monitoringSubnetIdOutput.Value]"}
       }
       }
     }
