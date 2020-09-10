@@ -58,7 +58,7 @@
     },
     "resources": [
       {
-        "condition": "[empty(resourceid(variables('patchingcondition')))]",
+        "condition": "[if(empty(resourceid(variables('patchingcondition'))))]",
         "type": "Microsoft.Resources/resourceGroups",
         "apiVersion": "2020-06-01",
         "name": "[variables('patchingResourceGroupName')]",
