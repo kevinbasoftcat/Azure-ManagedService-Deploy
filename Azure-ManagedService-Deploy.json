@@ -54,7 +54,7 @@
     "vNetResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG02-vNet')]",
     "bastionResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG08-Bastion')]",
     "monitoringResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG09-Monitoring')]",
-    "patchingcondition": "[concat('subscriptions/'), subscription().subscriptionId, '/resourcegroups/', variables('patchingResourceGroupName'))]"
+    "patchingcondition": "[concat('subscriptions/', subscription().subscriptionId, '/resourcegroups/', variables('patchingResourceGroupName'))]"
     },
     "resources": [
       {
