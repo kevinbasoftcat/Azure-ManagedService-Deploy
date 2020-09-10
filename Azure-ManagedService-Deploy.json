@@ -53,11 +53,12 @@
     "patchingResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG07-Patching')]",
     "vNetResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG02-vNet')]",
     "bastionResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG08-Bastion')]",
-    "monitoringResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG09-Monitoring')]"
+    "monitoringResourceGroupName": "[concat(parameters('softcatDynamicsCode'), '-RG09-Monitoring')]",
+    "patchingcondition": "[concat('subscriptions/'), 'subscription().Id', '/resourcegroups/', variables('patchingResourceGroupName')]"
     },
     "resources": [
       {
-        "condition": "[empty('/subscriptions/subscription().Id/resourceGroups/'), variables('patchingResourceGroupName')]",
+        "condition": "[empty(resourceid(variables('patchingcondition')))]",
         "type": "Microsoft.Resources/resourceGroups",
         "apiVersion": "2020-06-01",
         "name": "[variables('patchingResourceGroupName')]",
