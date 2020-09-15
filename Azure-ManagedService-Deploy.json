@@ -62,7 +62,7 @@
         "name": "[variables('patchingResourceGroupName')]",
         "location": "[parameters('resourceGroupLocation')]",
         "tags": {
-          "SoftcatTemplate": "MAService"
+          "SoftcatTemplate": "AzureManagedService"
         },
         "properties": {}
       },
@@ -91,7 +91,7 @@
         "name": "[variables('vNetResourceGroupName')]",
         "location": "[parameters('resourceGroupLocation')]",
         "tags": {
-          "SoftcatTemplate": "MAService"
+          "SoftcatTemplate": "AzureManagedService"
         },
         "properties": {}
       },
@@ -123,7 +123,7 @@
         "name": "[variables('bastionResourceGroupName')]",
         "location": "[parameters('resourceGroupLocation')]",
         "tags": {
-          "SoftcatTemplate": "MAService"
+          "SoftcatTemplate": "AzureManagedService"
         },
         "properties": {}
       },
@@ -156,7 +156,7 @@
       "name": "[variables('monitoringResourceGroupName')]",
       "location": "[parameters('resourceGroupLocation')]",
       "tags": {
-        "SoftcatTemplate": "MAService"
+        "SoftcatTemplate": "AzureManagedService"
       },
       "properties": {}
     },
